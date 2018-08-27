@@ -8,10 +8,20 @@ Vue.use(Vuex);
 
 // const debug = process.env.NODE_ENV !== 'production';
 
-export default new Vuex.Store({
-  modules: {
-    articles
-  },
-  // strict: debug,
-  // plugins: debug ? [createLogger()] : []
-});
+// export default new Vuex.Store({
+//   modules: {
+//     articles
+//   },
+//   // strict: debug,
+//   // plugins: debug ? [createLogger()] : []
+// });
+
+const createStore = () => {
+  return new Vuex.Store({
+    modules: {
+      articles
+    },
+  })
+}
+
+export default createStore;
