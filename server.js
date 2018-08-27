@@ -30,7 +30,7 @@ const app = require('express');
 //         console.error(error)  // eslint-disable-line no-console
 //         process.exit(1)
 //     })
-const createApp = require('./.nuxt/dist/app.0c86db09541aafcc5ebd.js');
+const createApp = require('./.nuxt/dist/app.fc1de5bd1e2a9ee58fec.js');
 
 app.get('*', (req, res) => {
   const context = { url: req.url }

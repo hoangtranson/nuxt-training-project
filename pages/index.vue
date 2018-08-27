@@ -2,16 +2,16 @@
   <div class="container" id="app">
     <div class="md-layout md-gutter">
       <div class="md-layout-item">
-        <!-- <bbs-button-dial v-on:add-article="openAddNewArticleModal"></bbs-button-dial>
+        <bbs-button-dial v-on:add-article="openAddNewArticleModal"></bbs-button-dial>
         <bbs-table
           v-bind:source="articleList"
           v-on:delete-item="deleteArticle"
           v-on:edit-item="openEditArticleModal"
           v-on:view-item="goToPage"
-          v-on:add-article="openAddNewArticleModal"></bbs-table> -->
+          v-on:add-article="openAddNewArticleModal"></bbs-table>
       </div>
 
-      <!-- <bbs-modal
+      <bbs-modal
         v-if="showModal"
         v-bind:source="editedData"
         v-on:close-modal="closeModal"
@@ -22,49 +22,56 @@
           :md-content="serverErrMessage"
           md-confirm-text="OK"
           @md-cancel="closeErrModal"
-          @md-confirm="closeErrModal" /> -->
+          @md-confirm="closeErrModal" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
+
+import BbsButtonDial from "../components/button-dial";
+import BbsTable from "../components/table";
+import BbsModal from "../components/modal-create-article";
 
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  components: {
+    BbsButtonDial,
+    BbsTable,
+    BbsModal
+  },
+  data() {
     return {
       showModal: false,
       editedData: {},
       modalMode: "NEW",
       showSnackbar: false
-    }
+    };
   },
   methods: {
     submitArticle: function(newArticle) {
       this.editedData = {};
       const MODE = {
-        "NEW": (article) => {
+        NEW: article => {
           article.id = this.lastId + 1;
-          this.$store.dispatch('POST_NEW_ARTICLE', article)
-          .then( res => {
+          this.$store.dispatch("POST_NEW_ARTICLE", article).then(res => {
             this.showModal = false;
           });
         },
-        "EDIT": (article) => {
-          this.$store.dispatch('UPDATE_AN_ARTICLE', article)
-          .then( res => {
+        EDIT: article => {
+          this.$store.dispatch("UPDATE_AN_ARTICLE", article).then(res => {
             this.showModal = false;
           });
         }
-      }
+      };
       MODE[this.modalMode](newArticle);
     },
     deleteArticle: function(deletedData) {
-      this.$store.dispatch('DELETE_AN_ARTICLE', deletedData.id);
+      this.$store.dispatch("DELETE_AN_ARTICLE", deletedData.id);
     },
     openEditArticleModal: function(editedData) {
-      this.editedData = {...editedData};
+      this.editedData = { ...editedData };
       this.showModal = true;
       this.modalMode = "EDIT";
     },
@@ -79,34 +86,28 @@ export default {
     goToPage: function(viewData) {
       this.updateArticleDetailId(viewData.id);
       viewData.viewCount += 1;
-      this.$store.dispatch('UPDATE_AN_ARTICLE', viewData).then( res => {
+      this.$store.dispatch("UPDATE_AN_ARTICLE", viewData).then(res => {
         this.$router.push({ path: `/article/${viewData.id}` });
-      })
+      });
     },
-    closeErrModal: function(){
+    closeErrModal: function() {
       this.hideErrModal(false);
     },
     ...mapActions({
-      updateArticleDetailId: 'SET_VIEW_ARTICLE',
-      hideErrModal: 'SET_HIDE_ERR'
+      updateArticleDetailId: "SET_VIEW_ARTICLE",
+      hideErrModal: "SET_HIDE_ERR"
     })
   },
   computed: {
-    ...mapGetters([
-      'articleList',
-      'lastId',
-      'isServerErr',
-      'serverErrMessage'
-    ])
+    ...mapGetters(["articleList", "lastId", "isServerErr", "serverErrMessage"])
   },
-  created () {
-    this.$store.dispatch('LOAD_ARTICLE_LIST');
-  },
-}
+  created() {
+    this.$store.dispatch("LOAD_ARTICLE_LIST");
+  }
+};
 </script>
 
 <style>
-
 /* .md-layout-item {
   height: 40px;
 

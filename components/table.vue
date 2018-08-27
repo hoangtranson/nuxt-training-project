@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-table v-model="dataDisplay" md-card @md-selected="onSelect">
+    <md-table v-model="source" md-card @md-selected="onSelect">
       <md-table-toolbar>
         <h1 class="md-toolbar-section-start">Article List</h1>
       </md-table-toolbar>
@@ -107,22 +107,22 @@ export default {
       const chunkData = chunk(this.source, this.rowPerPage);
       return chunkData.length;
     },
-    dataDisplay: function(){
-      if(!this.source) {
-        return [];
-      }
-      const chunkData = chunk(this.source, this.rowPerPage);
-      if(this.pageNumber > 1 && chunkData.length < this.pageNumber) {
-        this.pageNumber -- ;
-      }
-      return chunkData[this.pageNumber - 1] ? chunkData[this.pageNumber - 1] : [];
-      // return [];
-    }
+    // dataDisplay: function(){
+    //   if(!this.source) {
+    //     return [];
+    //   }
+    //   const chunkData = chunk(this.source, this.rowPerPage);
+    //   if(this.pageNumber > 1 && chunkData.length < this.pageNumber) {
+    //     this.pageNumber -- ;
+    //   }
+    //   return chunkData[this.pageNumber - 1] ? chunkData[this.pageNumber - 1] : [];
+    //   // return [];
+    // }
   }
 };
 </script>
 
-<style lang="scss">
+<style>
 .md-snackbar-content .md-button {
   margin: -8px -8px -8px 0;
 }
