@@ -31,7 +31,8 @@ module.exports = {
     { src: '~/assets/default-theme.scss', lang: 'scss' }
   ],
   plugins: [
-    { src: '~/plugins/vue-material' }
+    { src: '~/plugins/vue-material' },
+    { src: '~/plugins/components' }
   ],
   /*
   ** Customize the progress bar color
@@ -44,7 +45,7 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    vendor: ['vue-material'],
+    vendor: ['vue-material', 'axios'],
     extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({

@@ -1,70 +1,121 @@
 <template>
-  <section class="container">
-    <!-- <div>
-      <app-logo/>
-      <h1 class="title">
-        nuxt-training-project
-      </h1>
-    </div> -->
-    <!-- <no-ssr placeholder="Loading..."> -->
-      <md-speed-dial :class="'md-top-left'" md-direction="bottom">
-        <md-speed-dial-target class="md-primary">
-          <md-icon>my_location</md-icon>
-        </md-speed-dial-target>
+  <div class="container">
+    <div class="md-layout md-gutter">
+      <div class="md-layout-item">
+        <bbs-button-dial v-on:add-article="openAddNewArticleModal"></bbs-button-dial>
+        <bbs-table
+          v-bind:source="articleList"
+          v-on:delete-item="deleteArticle"
+          v-on:edit-item="openEditArticleModal"
+          v-on:view-item="goToPage"
+          v-on:add-article="openAddNewArticleModal"></bbs-table>
+      </div>
 
-        <md-speed-dial-content>
-          <md-button class="md-icon-button">
-            <md-icon>directions</md-icon>
-          </md-button>
-
-          <md-button class="md-icon-button">
-            <md-icon>streetview</md-icon>
-          </md-button>
-        </md-speed-dial-content>
-      </md-speed-dial>
-    <!-- </no-ssr> -->
-  </section>
+      <!-- <bbs-modal
+        v-if="showModal"
+        v-bind:source="editedData"
+        v-on:close-modal="closeModal"
+        v-on:submit-article="submitArticle"></bbs-modal>
+        <md-dialog-confirm
+          :md-active="isServerErr"
+          md-title="Server Error"
+          :md-content="serverErrMessage"
+          md-confirm-text="OK"
+          @md-cancel="closeErrModal"
+          @md-confirm="closeErrModal" /> -->
+    </div>
+  </div>
 </template>
 
 <script>
-import AppLogo from "~/components/AppLogo.vue";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  components: {
-    AppLogo
-  }
-};
+  name: 'app',
+  data () {
+    return {
+      showModal: false,
+      editedData: {},
+      modalMode: "NEW",
+      showSnackbar: false
+    }
+  },
+  methods: {
+    submitArticle: function(newArticle) {
+      this.editedData = {};
+      const MODE = {
+        "NEW": (article) => {
+          article.id = this.lastId + 1;
+          this.$store.dispatch('POST_NEW_ARTICLE', article)
+          .then( res => {
+            this.showModal = false;
+          });
+        },
+        "EDIT": (article) => {
+          this.$store.dispatch('UPDATE_AN_ARTICLE', article)
+          .then( res => {
+            this.showModal = false;
+          });
+        }
+      }
+      MODE[this.modalMode](newArticle);
+    },
+    deleteArticle: function(deletedData) {
+      this.$store.dispatch('DELETE_AN_ARTICLE', deletedData.id);
+    },
+    openEditArticleModal: function(editedData) {
+      this.editedData = {...editedData};
+      this.showModal = true;
+      this.modalMode = "EDIT";
+    },
+    closeModal: function(e) {
+      this.showModal = false;
+    },
+    openAddNewArticleModal: function(e) {
+      this.showModal = true;
+      this.modalMode = "NEW";
+      this.editedData = {};
+    },
+    goToPage: function(viewData) {
+      this.updateArticleDetailId(viewData.id);
+      viewData.viewCount += 1;
+      this.$store.dispatch('UPDATE_AN_ARTICLE', viewData).then( res => {
+        this.$router.push({ path: `/article/${viewData.id}` });
+      })
+    },
+    closeErrModal: function(){
+      this.hideErrModal(false);
+    },
+    ...mapActions({
+      updateArticleDetailId: 'SET_VIEW_ARTICLE',
+      hideErrModal: 'SET_HIDE_ERR'
+    })
+  },
+  computed: {
+    ...mapGetters([
+      'articleList',
+      'lastId',
+      'isServerErr',
+      'serverErrMessage'
+    ])
+  },
+  created () {
+    this.$store.dispatch('LOAD_ARTICLE_LIST');
+  },
+}
 </script>
 
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style lang="scss">
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+.md-layout-item {
+  height: 40px;
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  &:after {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: md-get-palette-color(red, 200);
+    content: " ";
+  }
 }
 </style>
-
