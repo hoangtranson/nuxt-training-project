@@ -33,10 +33,10 @@
           <md-icon>edit</md-icon>
         </md-button>
         <md-button class="md-icon-button md-primary" @click="viewData">
-          <md-icon>edit</md-icon>
+          <md-icon>pageview</md-icon>
         </md-button>
         <md-button class="md-icon-button md-primary" @click="deleteData">
-          <md-icon>edit</md-icon>
+          <md-icon>delete</md-icon>
         </md-button>
         <span class="action-item-title">{{selectedArticle}}</span>
       </div>
@@ -54,6 +54,10 @@ export default {
   props: {
     source: {
       type: [Array, Object],
+      required: true
+    },
+    totalPage: {
+      type: Number,
       required: true
     },
     mdPage: {
@@ -102,22 +106,7 @@ export default {
   computed: {
     selectedArticle: function() {
       return this.selected ? this.selected.title : '';
-    },
-    totalPage: function(){
-      const chunkData = chunk(this.source, this.rowPerPage);
-      return chunkData.length;
-    },
-    // dataDisplay: function(){
-    //   if(!this.source) {
-    //     return [];
-    //   }
-    //   const chunkData = chunk(this.source, this.rowPerPage);
-    //   if(this.pageNumber > 1 && chunkData.length < this.pageNumber) {
-    //     this.pageNumber -- ;
-    //   }
-    //   return chunkData[this.pageNumber - 1] ? chunkData[this.pageNumber - 1] : [];
-    //   // return [];
-    // }
+    }
   }
 };
 </script>

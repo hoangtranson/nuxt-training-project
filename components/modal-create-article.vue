@@ -65,14 +65,16 @@ export default {
     submitData: function(e) {
       if(this.isFormValid(this.source)){
         const data = {
-          id: this.source.id,
           title: this.source.title,
           author: this.source.author,
           email: this.source.email,
           content: this.source.content,
-          viewCount: this.source.viewCount ? this.source.viewCount ++ : 0,
-          updatedDate: formatDate(new Date())
+          viewCount: this.source.viewCount,
         };
+
+        if(this.source._id) {
+          data._id = this.source._id;
+        }
         this.$emit('submit-article', data);
       }
     },

@@ -5,13 +5,14 @@
         <bbs-button-dial v-on:add-article="openAddNewArticleModal"></bbs-button-dial>
         <bbs-table
           v-bind:source="articleList"
+          v-bind:totalPage="totalPage"
           v-on:delete-item="deleteArticle"
           v-on:edit-item="openEditArticleModal"
           v-on:view-item="goToPage"
           v-on:add-article="openAddNewArticleModal"></bbs-table>
       </div>
 
-      <!-- <bbs-modal
+      <bbs-modal
         v-if="showModal"
         v-bind:source="editedData"
         v-on:close-modal="closeModal"
@@ -22,7 +23,7 @@
           :md-content="serverErrMessage"
           md-confirm-text="OK"
           @md-cancel="closeErrModal"
-          @md-confirm="closeErrModal" /> -->
+          @md-confirm="closeErrModal" />
     </div>
   </div>
 </template>
@@ -40,12 +41,14 @@ export default {
       showSnackbar: false
     }
   },
+  async fetch ({ store, params }) {
+    await store.dispatch('LOAD_ARTICLE_LIST');
+  },
   methods: {
     submitArticle: function(newArticle) {
       this.editedData = {};
       const MODE = {
         "NEW": (article) => {
-          article.id = this.lastId + 1;
           this.$store.dispatch('POST_NEW_ARTICLE', article)
           .then( res => {
             this.showModal = false;
@@ -61,7 +64,7 @@ export default {
       MODE[this.modalMode](newArticle);
     },
     deleteArticle: function(deletedData) {
-      this.$store.dispatch('DELETE_AN_ARTICLE', deletedData.id);
+      this.$store.dispatch('DELETE_AN_ARTICLE', deletedData._id);
     },
     openEditArticleModal: function(editedData) {
       this.editedData = {...editedData};
@@ -77,31 +80,30 @@ export default {
       this.editedData = {};
     },
     goToPage: function(viewData) {
-      this.updateArticleDetailId(viewData.id);
+      console.warn(viewData);
       viewData.viewCount += 1;
       this.$store.dispatch('UPDATE_AN_ARTICLE', viewData).then( res => {
-        this.$router.push({ path: `/article/${viewData.id}` });
+        this.$router.push({ path: `/article/${viewData._id}` });
       })
     },
     closeErrModal: function(){
       this.hideErrModal(false);
     },
     ...mapActions({
-      updateArticleDetailId: 'SET_VIEW_ARTICLE',
       hideErrModal: 'SET_HIDE_ERR'
     })
   },
   computed: {
     ...mapGetters([
       'articleList',
-      'lastId',
+      'totalPage',
       'isServerErr',
       'serverErrMessage'
     ])
   },
-  created () {
-    this.$store.dispatch('LOAD_ARTICLE_LIST');
-  },
+  // created () {
+  //   this.$store.dispatch('LOAD_ARTICLE_LIST');
+  // },
 }
 </script>
 
