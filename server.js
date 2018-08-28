@@ -22,7 +22,7 @@ if (config.dev) {
   })
 }
 else {
-  listen()
+  listen();
 }
 
 function listen() {

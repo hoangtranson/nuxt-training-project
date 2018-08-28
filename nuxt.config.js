@@ -10,15 +10,12 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'bbs server side rendering and article api' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,700,400italic|Material+Icons' }
     ]
   },
   module: {
     rules: [
-      // ... other rules omitted
-
-      // this will apply to both plain `.scss` files
-      // AND `<style lang="scss">` blocks in `.vue` files
       {
         test: /\.scss$/,
         use: [
@@ -29,6 +26,13 @@ module.exports = {
       }
     ]
   },
+  css: [
+    { src: 'vue-material/dist/vue-material.min.css', lang: 'css' },
+    { src: '~/assets/default-theme.scss', lang: 'scss' }
+  ],
+  plugins: [
+    { src: '~/plugins/vue-material', ssr: false }
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -40,7 +44,8 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
+    vendor: ['vue-material'],
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',

@@ -1,35 +1,39 @@
 <template>
   <section class="container">
-    <div>
+    <!-- <div>
       <app-logo/>
       <h1 class="title">
         nuxt-training-project
       </h1>
-      <h2 class="subtitle">
-        bbs server side rendering and article api
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
-    </div>
+    </div> -->
+    <!-- <no-ssr placeholder="Loading..."> -->
+      <md-speed-dial :class="'md-top-left'" md-direction="bottom">
+        <md-speed-dial-target class="md-primary">
+          <md-icon>my_location</md-icon>
+        </md-speed-dial-target>
+
+        <md-speed-dial-content>
+          <md-button class="md-icon-button">
+            <md-icon>directions</md-icon>
+          </md-button>
+
+          <md-button class="md-icon-button">
+            <md-icon>streetview</md-icon>
+          </md-button>
+        </md-speed-dial-content>
+      </md-speed-dial>
+    <!-- </no-ssr> -->
   </section>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
+import AppLogo from "~/components/AppLogo.vue";
 
 export default {
   components: {
     AppLogo
   }
-}
+};
 </script>
 
 <style>
@@ -42,7 +46,8 @@ export default {
 }
 
 .title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
   display: block;
   font-weight: 300;
   font-size: 100px;
