@@ -13,6 +13,22 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  module: {
+    rules: [
+      // ... other rules omitted
+
+      // this will apply to both plain `.scss` files
+      // AND `<style lang="scss">` blocks in `.vue` files
+      {
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  },
   /*
   ** Customize the progress bar color
   */
