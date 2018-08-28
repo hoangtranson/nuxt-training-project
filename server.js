@@ -1,51 +1,28 @@
-// const bodyParser = require('body-parser');
-// const session = require('express-session');
-const app = require('express');
-// const { Nuxt, Builder } = require('nuxt');
+const Nuxt = require('nuxt');
+const app = require('express')();
+const host = process.env.HOST || '127.0.0.1'
+const port = process.env.PORT || 3000
 
-// Body parser, to access req.body
-// app.use(bodyParser.json())
+app.set('port', port)
+// Import API Routes
+// app.use('/api', require('./api/index'))
 
-// // Sessions to create req.session
-// app.use(session({
-//     secret: 'super-secret-key',
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: { maxAge: 60000 }
-// }))
+// Import and Set Nuxt.js options
+let config = require('./nuxt.config.js');
+config.dev = !(process.env.NODE_ENV === 'production');
+// Init Nuxt.js
+const nuxt = new Nuxt(config);
+app.use(nuxt.render);
 
-// We instantiate Nuxt.js with the options
-// const isProd = process.env.NODE_ENV === 'production'
-// let config = require('./nuxt.config.js')
-// config.dev = !isProd
-// const nuxt = new Nuxt(config)
-// // No build in production
-// const promise = (isProd ? Promise.resolve() : new Builder(nuxt).build())
-// promise.then(() => {
-//     app.use(nuxt.render)
-//     app.listen(3000)
-//     console.log('Server is listening on http://localhost:3000')  // eslint-disable-line no-console
-// })
-//     .catch((error) => {
-//         console.error(error)  // eslint-disable-line no-console
-//         process.exit(1)
-//     })
-const createApp = require('./.nuxt/dist/app.fc1de5bd1e2a9ee58fec.js');
-
-app.get('*', (req, res) => {
-  const context = { url: req.url }
-
-  createApp(context).then(app => {
-    renderer.renderToString(app, (err, html) => {
-      if (err) {
-        if (err.code === 404) {
-          res.status(404).end('Page not found')
-        } else {
-          res.status(500).end('Internal Server Error')
-        }
-      } else {
-        res.end(html)
-      }
-    })
+// Build only in dev mode
+if (config.dev) {
+  nuxt.build()
+  .catch((error) => {
+    console.error(error) // eslint-disable-line no-console
+    process.exit(1)
   })
-})
+}
+
+// Listen the server
+app.listen(port, host)
+console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
