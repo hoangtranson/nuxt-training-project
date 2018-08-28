@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 Vue.use(Vuex);
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = 'http://localhost:3000/api';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -15,9 +15,9 @@ const createStore = () => {
       serverErr: null
     },
     actions: {
-      LOAD_ARTICLE_LIST: async function ({ commit, dispatch }) {
+      LOAD_ARTICLE_LIST: async function ({ commit, dispatch }, query ={page:1, limit:5}) {
         try{
-          const { data } = await  axios.get(`${API_URL}/articles`);
+          const { data } = await  axios.get(`${API_URL}/articles?page=${query.page}&limit=${query.limit}&sort=updatedDate`);
           commit('SET_ARTICLE_LIST', { list: data });
         } catch(err) {
           commit('SET_SHOW_ERR', 'Cannot get Article list');
@@ -30,25 +30,24 @@ const createStore = () => {
           commit('SET_SHOW_ERR', `Cannot get Article with id ${id}`);
         });
       },
-      POST_NEW_ARTICLE: function({commit}, data){
+      POST_NEW_ARTICLE: function({commit, dispatch}, data){
         console.warn(data);
         axios.post(`${API_URL}/article`, data).then((response) => {
-          console.warn(response);
-          commit('ADD_AN_ARTICLE', { item: response.data });
+          dispatch('LOAD_ARTICLE_LIST');
         }).catch( e => {
           commit('SET_SHOW_ERR', `Cannot create new article`);
         });
       },
-      UPDATE_AN_ARTICLE: function({commit}, data) {
+      UPDATE_AN_ARTICLE: function({commit, dispatch}, data) {
         axios.put(`${API_URL}/article/${data._id}`, data).then((response) => {
-          commit('ADD_AN_ARTICLE', { item: data });
+          dispatch('LOAD_ARTICLE_LIST');
         }).catch( e => {
-          commit('SET_SHOW_ERR', `Cannot edit article id ${data.id}`);
+          commit('SET_SHOW_ERR', `Cannot edit article id ${data._id}`);
         });
       },
       DELETE_AN_ARTICLE: function({commit}, id) {
         axios.delete(`${API_URL}/article/${id}`).then((response) => {
-          commit('REMOVE_ARTICLE_LIST', id);
+          dispatch('LOAD_ARTICLE_LIST');
         }).catch( e => {
           commit('SET_SHOW_ERR', `Cannot delete article id ${id}`);
         });
@@ -67,21 +66,6 @@ const createStore = () => {
       },
       SET_DETAIL_ARTICLE: (state, { article }) => {
         state.detailArticle = JSON.parse(JSON.stringify(article));
-      },
-      ADD_AN_ARTICLE: (state, { item }) => {
-        const newData = [...state.articleList];
-        const index = newData.findIndex( _i => _i._id == item._id);
-  
-        if(index > -1) {
-          newData[index] = item;
-        } else {
-          newData.push(item);
-        }
-  
-        state.articleList = newData;
-      },
-      REMOVE_ARTICLE_LIST: (state, id) => {
-        state.articleList = state.articleList.filter( item => item._id != _id);
       },
       SET_SHOW_ERR: (state, text) => {
         state.showErrModal = true;
