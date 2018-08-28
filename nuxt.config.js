@@ -31,7 +31,7 @@ module.exports = {
     { src: '~/assets/default-theme.scss', lang: 'scss' }
   ],
   plugins: [
-    { src: '~/plugins/vue-material', ssr: false }
+    { src: '~/plugins/vue-material' }
   ],
   /*
   ** Customize the progress bar color
