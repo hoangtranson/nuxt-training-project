@@ -3,7 +3,6 @@ const { Nuxt, Builder } = require('nuxt');
 const app = require('express')();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const cors = require('cors');
 
 const isProd = (process.env.NODE_ENV === 'production');
 const port = process.env.PORT || 3000;
@@ -21,21 +20,6 @@ if(process.env.ENV == 'Test'){
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000'];
-app.use(cors({
-  origin: function(origin, callback){
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true,
-}));
-
 app.use("/api", articleRoute);
 
 // We instantiate Nuxt.js with the options

@@ -9,7 +9,8 @@
           v-on:delete-item="deleteArticle"
           v-on:edit-item="openEditArticleModal"
           v-on:view-item="goToPage"
-          v-on:add-article="openAddNewArticleModal"></bbs-table>
+          v-on:add-article="openAddNewArticleModal" 
+          v-on:paging="changeView"></bbs-table>
       </div>
 
       <bbs-modal
@@ -80,11 +81,13 @@ export default {
       this.editedData = {};
     },
     goToPage: function(viewData) {
-      console.warn(viewData);
       viewData.viewCount += 1;
       this.$store.dispatch('UPDATE_AN_ARTICLE', viewData).then( res => {
         this.$router.push({ path: `/article/${viewData._id}` });
       })
+    },
+    changeView: function(paging) {
+      this.$store.dispatch('LOAD_ARTICLE_LIST', paging);
     },
     closeErrModal: function(){
       this.hideErrModal(false);

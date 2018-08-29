@@ -95,12 +95,15 @@ export default {
     setRowPerPage(rowNum) {
       this.rowPerPage = rowNum;
       this.pageNumber = 1;
+      this.$emit("paging", { page: this.pageNumber, limit: this.rowPerPage});
     },
     goPrevPage(page) {
       this.pageNumber = page;
+      this.$emit("paging", { page: this.pageNumber, limit: this.rowPerPage});
     },
     goNextPage(page) {
       this.pageNumber = page;
+      this.$emit("paging", { page: this.pageNumber, limit: this.rowPerPage});
     }
   },
   computed: {
