@@ -25,9 +25,12 @@ const createStore = () => {
           commit('SET_SHOW_ERR', 'Cannot get Article list');
         }
       },
-      LOAD_AN_ARTICLE: function({commit}, id) {
+      LOAD_AN_ARTICLE: function({commit, dispatch}, id) {
         axios.get(`${API_URL}/article/${id}`).then((response) => {
-          commit('SET_DETAIL_ARTICLE', { article: response.data });
+          const article = response.data;
+          article.viewCount ++;
+          commit('SET_DETAIL_ARTICLE', { article });
+          dispatch('UPDATE_AN_ARTICLE', article);
         }).catch( e => {
           commit('SET_SHOW_ERR', `Cannot get Article with id ${id}`);
         });

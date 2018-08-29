@@ -81,10 +81,7 @@ export default {
       this.editedData = {};
     },
     goToPage: function(viewData) {
-      viewData.viewCount += 1;
-      this.$store.dispatch('UPDATE_AN_ARTICLE', viewData).then( res => {
-        this.$router.push({ path: `/article/${viewData._id}` });
-      })
+      this.$router.push({ path: `/article/${viewData._id}` });
     },
     changeView: function(paging) {
       this.$nuxt.$loading.start();
