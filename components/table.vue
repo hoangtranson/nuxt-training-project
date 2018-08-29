@@ -2,7 +2,7 @@
   <div>
     <md-table v-model="source" md-card @md-selected="onSelect">
       <md-table-toolbar>
-        <h1 class="md-toolbar-section-start">Article List</h1>
+        <h1 class="md-toolbar-section-start">{{$t('home.articleTitle')}}</h1>
       </md-table-toolbar>
 
       <md-table-empty-state md-label="No article found">

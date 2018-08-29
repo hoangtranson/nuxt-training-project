@@ -32,8 +32,15 @@ module.exports = {
   ],
   plugins: [
     { src: '~/plugins/vue-material' },
-    { src: '~/plugins/components' }
+    { src: '~/plugins/components' },
+    { src: '~/plugins/i18n.js'}
   ],
+  router: {
+    middleware: 'i18n'
+  },
+  generate: {
+    routes: ['/', '/article/:id', '/vn', '/vn/article/:id']
+  },
   /*
   ** Customize the progress bar color
   */

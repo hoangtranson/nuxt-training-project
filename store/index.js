@@ -12,7 +12,9 @@ const createStore = () => {
       pageCount: null,
       detailArticle: {},
       showErrModal: false,
-      serverErr: null
+      serverErr: null,
+      locales: ['en', 'vn'],
+      locale: 'en'
     },
     actions: {
       LOAD_ARTICLE_LIST: async function ({ commit, dispatch }, query ={page:1, limit:5}) {
@@ -74,6 +76,11 @@ const createStore = () => {
       SET_HIDE_ERR: (state) => {
         state.showErrModal = false;
         state.serverErr = null;
+      },
+      SET_LANG(state, locale) {
+        if (state.locales.indexOf(locale) !== -1) {
+          state.locale = locale
+        }
       }
     },
     getters: {
