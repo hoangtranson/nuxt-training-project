@@ -105,9 +105,6 @@ export default {
       'serverErrMessage'
     ])
   },
-  // created () {
-  //   this.$store.dispatch('LOAD_ARTICLE_LIST');
-  // },
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="md-table-pagination">
-    <span class="md-table-pagination-label">{{ lable }}</span>
+    <span class="md-table-pagination-label">{{ label }}</span>
 
     <md-field>
       <md-select v-model="rowNum" md-dense md-class="md-pagination-select" v-on:md-selected="setRowPerPage">
@@ -46,9 +46,9 @@
         type: Number,
         required: true
       },
-      lable: {
+      label: {
         type: String,
-        default: 'Rows per page:'
+        required: true
       },
     },
     methods: {

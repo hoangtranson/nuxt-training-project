@@ -4,9 +4,9 @@
       <div class="md-layout-item">
         <md-card>
           <md-card-header>
-            <div class="md-title">Title:  {{detailArticle.title}}</div>
-            <div class="md-subhead">Author: {{detailArticle.author}}</div>
-            <div class="md-subhead">Email: {{detailArticle.email}}</div>
+            <div class="md-title">{{$t('table.title')}}:  {{detailArticle.title}}</div>
+            <div class="md-subhead">{{$t('table.author')}}: {{detailArticle.author}}</div>
+            <div class="md-subhead">{{$t('table.email')}}: {{detailArticle.email}}</div>
           </md-card-header>
           <md-card-content>
             {{detailArticle.content}}

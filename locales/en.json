@@ -1,8 +1,32 @@
 {
     "home": {
-        "articleTitle": "Article List",
-        "about": "About",
-        "english": "English version",
-        "french": "French version"
+        "articleTitle": "Article List"
+    },
+    "modal": {
+        "addArticle": "Add article",
+        "updateArticle": "Update article",
+        "title": "Article Title",
+        "author": "Author",
+        "email": "Email",
+        "content": "Content"
+    },
+    "table": {
+        "title": "Article Title",
+        "author": "Author",
+        "email": "Email",
+        "updatedDate": "Updated Date",
+        "viewCount": "View",
+        "rowPerPage": "Rows per page:"
+    },
+    "button": {
+        "close": "Close",
+        "createNewArticle": "Create New Article"
+    },
+    "error": {
+        "requiredTitle": "Title required",
+        "requiredAuthor": "Author required",
+        "requiredEmail": "Email required",
+        "invalidEmailFormat": "Valid email format",
+        "requiredContent": "Content required"
     }
 }

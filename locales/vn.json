@@ -1,8 +1,32 @@
 {
     "home": {
-        "articleTitle": "Danh sach bai viet",
-        "about": "About",
-        "english": "English version",
-        "french": "French version"
+        "articleTitle": "Danh sách bài viết"
+    },
+    "modal": {
+        "addArticle": "Thêm bài viêt",
+        "updateArticle": "Cập nhập bài viết",
+        "title": "Tựa đề",
+        "author": "Tác giả",
+        "email": "Hộp thư",
+        "content": "Nội dung"
+    },
+    "table": {
+        "title": "Tựa đề",
+        "author": "Tác giả",
+        "email": "Hộp thư",
+        "updatedDate": "Ngày cập nhập",
+        "viewCount": "Lượt xem",
+        "rowPerPage": "Số dòng trên trang:"
+    },
+    "button": {
+        "close": "Đóng",
+        "createNewArticle": "Tạo mới bài viết"
+    },
+    "error": {
+        "requiredTitle": "Tựa đề là bắt buộc",
+        "requiredAuthor": "Tác giả là bắt buộc",
+        "requiredEmail": "Hộp thư là bắt buộc",
+        "invalidEmailFormat": "Hộp thư không đúng định dạng",
+        "requiredContent": "Nội dung là bắt buộc"
     }
 }

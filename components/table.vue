@@ -6,21 +6,22 @@
       </md-table-toolbar>
 
       <md-table-empty-state md-label="No article found">
-        <md-button class="md-primary md-raised" @click="$emit('add-article', true)">Create New Article</md-button>
+        <md-button class="md-primary md-raised" @click="$emit('add-article', true)">{{$t('button.createNewArticle')}}</md-button>
       </md-table-empty-state>
 
       <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-        <md-table-cell md-label="Title" md-sort-by="title">{{ item.title }}</md-table-cell>
-        <md-table-cell md-label="Author" md-sort-by="author">{{ item.author }}</md-table-cell>
-        <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
-        <md-table-cell md-label="View" md-sort-by="view">{{ item.viewCount }}</md-table-cell>
-        <md-table-cell md-label="Updated Date" md-sort-by="updatedDate">{{ item.updatedDate }}</md-table-cell>
+        <md-table-cell :md-label="$t('table.title')">{{ item.title }}</md-table-cell>
+        <md-table-cell :md-label="$t('table.author')">{{ item.author }}</md-table-cell>
+        <md-table-cell :md-label="$t('table.email')">{{ item.email }}</md-table-cell>
+        <md-table-cell :md-label="$t('table.viewCount')">{{ item.viewCount }}</md-table-cell>
+        <md-table-cell :md-label="$t('table.updatedDate')">{{ item.updatedDate }}</md-table-cell>
       </md-table-row>
     </md-table>
     <no-ssr>
       <table-pagination
         v-bind:totalPage="totalPage"
         v-bind:rowPerPage="rowPerPage"
+        v-bind:label="$t('table.rowPerPage')"
         v-bind:pageNumber="pageNumber"
         v-on:updateRow="setRowPerPage"
         v-on:goPrev="goPrevPage"
@@ -40,7 +41,7 @@
         </md-button>
         <span class="action-item-title">{{selectedArticle}}</span>
       </div>
-      <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
+      <md-button class="md-primary" @click="showSnackbar = false">{{$t('button.close')}}</md-button>
     </md-snackbar>
   </div>
 </template>

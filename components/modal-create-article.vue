@@ -4,27 +4,27 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
-            <h1>Add article</h1>
+            <h1>{{modalTitle}}</h1>
           </div>
 
           <div class="modal-body">
             <md-field v-bind:class="{ 'md-invalid': errors.title }">
-              <label>Article Title</label>
+              <label>{{$t('modal.title')}}</label>
               <md-input v-model="source.title"></md-input>
               <span class="md-error">{{errors.title}}</span>
             </md-field>
             <md-field v-bind:class="{ 'md-invalid': errors.author }">
-              <label>Author</label>
+              <label>{{$t('modal.author')}}</label>
               <md-input v-model="source.author"></md-input>
               <span class="md-error">{{errors.author}}</span>
             </md-field>
             <md-field v-bind:class="{ 'md-invalid': errors.email }">
-              <label>Email</label>
+              <label>{{$t('modal.email')}}</label>
               <md-input v-model="source.email"></md-input>
               <span class="md-error">{{errors.email}}</span>
             </md-field>
             <md-field v-bind:class="{ 'md-invalid': errors.content }">
-              <label>Content</label>
+              <label>{{$t('modal.content')}}</label>
               <md-textarea v-model="source.content"></md-textarea>
               <span class="md-error">{{errors.content}}</span>
             </md-field>
@@ -32,10 +32,10 @@
 
           <div class="modal-footer">
             <md-button @click="$emit('close-modal')">
-              Close
+              {{$t('button.close')}}
             </md-button>
             <md-button @click="submitData">
-              Add article
+               {{modalTitle}}
             </md-button>
           </div>
         </div>
@@ -81,21 +81,21 @@ export default {
     isFormValid: function({title, author, email, content}) {
       this.errors = {};
       if(!title){
-        this.errors['title'] = 'Title required';
+        this.errors['title'] = this.errMessage.title;
       }
 
       if(!author){
-        this.errors['author'] = 'Author required';
+        this.errors['author'] = this.errMessage.author;
       }
 
       if(!email){
-        this.errors['email'] = 'Email required';
+        this.errors['email'] = this.errMessage.email;
       } else if (!this.validEmail(email)) {
-        this.errors['email'] = 'Valid email required';
+        this.errors['email'] = this.errMessage.invalidEmail;
       }
 
       if(!content){
-        this.errors['content'] = 'Content required';
+        this.errors['content'] = this.errMessage.content;
       }
 
       if (this.errors.title || this.errors.author || this.errors.email || this.errors.content) {
@@ -108,7 +108,22 @@ export default {
       const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return emailPattern.test(email);
     }
+  },
+  computed: {
+    modalTitle: function(){
+      return this.source._id ?  this.$t('modal.updateArticle') :  this.$t('modal.addArticle');
+    },
+    errMessage: () => {
+      return {
+        title: this.$t('error.requiredTitle'),
+        author: this.$t('error.requiredAuthor'),
+        email: this.$t('error.requiredEmail'),
+        invalidEmail: this.$t('error.invalidEmailFormat'),
+        content: this.$t('error.requiredContent')
+      }
+    }
   }
+
 }
 </script>
 
