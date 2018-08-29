@@ -87,7 +87,8 @@ export default {
       })
     },
     changeView: function(paging) {
-      this.$store.dispatch('LOAD_ARTICLE_LIST', paging);
+      this.$nuxt.$loading.start();
+      this.$store.dispatch('LOAD_ARTICLE_LIST', paging).then( res => this.$nuxt.$loading.finish());
     },
     closeErrModal: function(){
       this.hideErrModal(false);

@@ -17,16 +17,16 @@
         <md-table-cell md-label="Updated Date" md-sort-by="updatedDate">{{ item.updatedDate }}</md-table-cell>
       </md-table-row>
     </md-table>
-
-    <table-pagination
-      v-bind:totalPage="totalPage"
-      v-bind:rowPerPage="rowPerPage"
-      v-bind:pageNumber="pageNumber"
-      v-on:updateRow="setRowPerPage"
-      v-on:goPrev="goPrevPage"
-      v-on:goNext="goNextPage">
-    </table-pagination>
-
+    <no-ssr>
+      <table-pagination
+        v-bind:totalPage="totalPage"
+        v-bind:rowPerPage="rowPerPage"
+        v-bind:pageNumber="pageNumber"
+        v-on:updateRow="setRowPerPage"
+        v-on:goPrev="goPrevPage"
+        v-on:goNext="goNextPage">
+      </table-pagination>
+    </no-ssr>
     <md-snackbar :md-position="'center'" :md-duration="5000" :md-active.sync="showSnackbar" md-persistent>
       <div>
         <md-button class="md-icon-button md-primary" @click="editData">
