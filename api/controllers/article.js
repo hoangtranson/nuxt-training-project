@@ -10,7 +10,7 @@ const articleController = articleModel => {
             // }
 
             const [results, itemCount] = await Promise.all([
-                articleModel.find({}).limit(req.query.limit).skip(req.skip).lean().exec(),
+                articleModel.find({}).limit(req.query.limit).sort({updatedDate: -1}).exec(),
                 articleModel.count({})
             ]);
 

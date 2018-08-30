@@ -19,7 +19,7 @@ const createStore = () => {
     actions: {
       LOAD_ARTICLE_LIST: async function ({ commit, dispatch }, query ={page:1, limit:5}) {
         try{
-          const { data } = await  axios.get(`${API_URL}/articles?page=${query.page}&limit=${query.limit}&sort=updatedDate`);
+          const { data } = await  axios.get(`${API_URL}/articles?page=${query.page}&limit=${query.limit}`);
           commit('SET_ARTICLE_LIST', { list: data });
         } catch(err) {
           commit('SET_SHOW_ERR', 'Cannot get Article list');
