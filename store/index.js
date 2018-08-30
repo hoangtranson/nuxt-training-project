@@ -17,7 +17,7 @@ const createStore = () => {
       locale: "en"
     },
     actions: {
-      LOAD_ARTICLE_LIST: async function (
+      LOAD_ARTICLE_LIST: async function(
         { commit },
         query = { page: 1, limit: 5 }
       ) {
@@ -30,7 +30,7 @@ const createStore = () => {
           commit("SET_SHOW_ERR", "Cannot get Article list")
         }
       },
-      LOAD_AN_ARTICLE: async function ({ commit }, id) {
+      LOAD_AN_ARTICLE: async function({ commit }, id) {
         try {
           const { data } = await axios.get(`${API_URL}/article/${id}`)
           commit("SET_DETAIL_ARTICLE", data)
@@ -38,7 +38,7 @@ const createStore = () => {
           commit("SET_SHOW_ERR", `Cannot get Article with id ${id}`)
         }
       },
-      POST_NEW_ARTICLE: function ({ commit, dispatch }, data) {
+      POST_NEW_ARTICLE: function({ commit, dispatch }, data) {
         console.warn(data)
         axios
           .post(`${API_URL}/article`, data)
@@ -49,7 +49,7 @@ const createStore = () => {
             commit("SET_SHOW_ERR", `Cannot create new article`)
           })
       },
-      UPDATE_AN_ARTICLE: function ({ commit, dispatch }, data) {
+      UPDATE_AN_ARTICLE: function({ commit, dispatch }, data) {
         axios
           .put(`${API_URL}/article/${data._id}`, data)
           .then(() => {
@@ -59,7 +59,7 @@ const createStore = () => {
             commit("SET_SHOW_ERR", `Cannot edit article id ${data._id}`)
           })
       },
-      DELETE_AN_ARTICLE: function ({ commit, dispatch }, id) {
+      DELETE_AN_ARTICLE: function({ commit, dispatch }, id) {
         axios
           .delete(`${API_URL}/article/${id}`)
           .then(() => {
@@ -69,10 +69,10 @@ const createStore = () => {
             commit("SET_SHOW_ERR", `Cannot delete article id ${id}`)
           })
       },
-      SET_VIEW_ARTICLE: function ({ commit }, id) {
+      SET_VIEW_ARTICLE: function({ commit }, id) {
         commit("UPDATE_VIEW_ARTICLE", id)
       },
-      SET_HIDE_ERR: function ({ commit }) {
+      SET_HIDE_ERR: function({ commit }) {
         commit("SET_HIDE_ERR")
       }
     },

@@ -56,7 +56,14 @@ export default {
   data() {
     return {
       showModal: false,
-      errors: {}
+      errors: {},
+      errMessage: {
+        title: this.$t("error.requiredTitle"),
+        author: this.$t("error.requiredAuthor"),
+        email: this.$t("error.requiredEmail"),
+        invalidEmail: this.$t("error.invalidEmailFormat"),
+        content: this.$t("error.requiredContent")
+      }
     }
   },
   computed: {
@@ -64,15 +71,6 @@ export default {
       return this.source._id
         ? this.$t("modal.updateArticle")
         : this.$t("modal.addArticle")
-    },
-    errMessage: () => {
-      return {
-        title: this.$t("error.requiredTitle"),
-        author: this.$t("error.requiredAuthor"),
-        email: this.$t("error.requiredEmail"),
-        invalidEmail: this.$t("error.invalidEmailFormat"),
-        content: this.$t("error.requiredContent")
-      }
     }
   },
   methods: {
@@ -124,7 +122,7 @@ export default {
       return true
     },
     validEmail: function(email) {
-      const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const emailPattern = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return emailPattern.test(email)
     }
   }
