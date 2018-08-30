@@ -1,5 +1,5 @@
 const formatDate = d => {
-  const date = new Date(d);
+  const date = new Date(d)
   const monthNames = [
     "01",
     "02",
@@ -13,12 +13,12 @@ const formatDate = d => {
     "10",
     "11",
     "12"
-  ];
+  ]
 
-  const day = date.getDate();
-  const monthIndex = date.getMonth();
-  const year = date.getFullYear();
-  return `${day}/${monthNames[monthIndex]}/${year}`;
-};
+  const day = date.getDate()
+  const monthIndex = date.getMonth()
+  const year = date.getFullYear()
+  return `${day}/${monthNames[monthIndex]}/${year}`
+}
 
-export { formatDate };
+export { formatDate }

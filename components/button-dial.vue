@@ -7,33 +7,33 @@
 </template>
 
 <script>
-
 export default {
-  name: 'BbsButtonDial',
-  data () {
+  name: "BbsButtonDial",
+  data() {
     return {
-      topPosition: 'md-top-right',
+      topPosition: "md-top-right"
     }
   },
   methods: {
     addArticle: function(e) {
-      this.$emit('add-article', true);
+      this.$emit("add-article", true)
     }
   }
 }
 </script>
 
 <style lang="scss">
-.md-speed-dial{
+.md-speed-dial {
   position: absolute;
   z-index: 9;
 }
 
-.md-button.md-theme-default.md-fab:not([disabled]){
+.md-button.md-theme-default.md-fab:not([disabled]) {
   color: #fff;
 }
 
-.md-speed-dial.md-top-left, .md-speed-dial.md-top-right{
+.md-speed-dial.md-top-left,
+.md-speed-dial.md-top-right {
   top: 5px;
 }
 </style>

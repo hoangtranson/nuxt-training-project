@@ -2,106 +2,106 @@
   <div class="container">
     <div class="md-layout md-gutter">
       <div class="md-layout-item">
-        <bbs-button-dial v-on:add-article="openAddNewArticleModal"></bbs-button-dial>
+        <bbs-button-dial @add-article="openAddNewArticleModal"/>
         <bbs-table
-          v-bind:source="articleList"
-          v-bind:totalPage="totalPage"
-          v-on:delete-item="deleteArticle"
-          v-on:edit-item="openEditArticleModal"
-          v-on:view-item="goToPage"
-          v-on:add-article="openAddNewArticleModal" 
-          v-on:paging="changeView"></bbs-table>
+          :source="articleList"
+          :total-page="totalPage"
+          @delete-item="deleteArticle"
+          @edit-item="openEditArticleModal"
+          @view-item="goToPage"
+          @add-article="openAddNewArticleModal" 
+          @paging="changeView"/>
       </div>
 
       <bbs-modal
         v-if="showModal"
-        v-bind:source="editedData"
-        v-on:close-modal="closeModal"
-        v-on:submit-article="submitArticle"></bbs-modal>
-        <md-dialog-confirm
-          :md-active="isServerErr"
-          md-title="Server Error"
-          :md-content="serverErrMessage"
-          md-confirm-text="OK"
-          @md-cancel="closeErrModal"
-          @md-confirm="closeErrModal" />
+        :source="editedData"
+        @close-modal="closeModal"
+        @submit-article="submitArticle"/>
+      <md-dialog-confirm
+        :md-active="isServerErr"
+        :md-content="serverErrMessage"
+        md-title="Server Error"
+        md-confirm-text="OK"
+        @md-cancel="closeErrModal"
+        @md-confirm="closeErrModal" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex"
 
 export default {
-  name: "app",
+  name: "App",
   async asyncData({ store }) {
-    console.log('asyncData');
-    await store.dispatch("LOAD_ARTICLE_LIST");
+    console.log("asyncData")
+    await store.dispatch("LOAD_ARTICLE_LIST")
     return {
       showModal: false,
       editedData: {},
       modalMode: "NEW",
       showSnackbar: false
-    };
+    }
   },
   fetch({ store, params }) {
-    console.log('fetch');
+    console.log("fetch")
   },
-  beforeCreate: () => console.log('beforeCreate'),
-  created: () => console.log('created'),
-  beforeMount: () => console.log('beforeMount'),
-  mounted: () => console.log('mounted'),
-  beforeUpdate: () => console.log('beforeUpdate'),
-  updated: () => console.log('updated'),
-  activated: () => console.log('activated'),
-  deactivated: () => console.log('deactivated'),
-  beforeDestroy: () => console.log('beforeDestroy'),
-  destroyed: () => console.log('destroyed'),
-  errorCaptured: () => console.log('errorCaptured'),
+  beforeCreate: () => console.log("beforeCreate"),
+  created: () => console.log("created"),
+  beforeMount: () => console.log("beforeMount"),
+  mounted: () => console.log("mounted"),
+  beforeUpdate: () => console.log("beforeUpdate"),
+  updated: () => console.log("updated"),
+  activated: () => console.log("activated"),
+  deactivated: () => console.log("deactivated"),
+  beforeDestroy: () => console.log("beforeDestroy"),
+  destroyed: () => console.log("destroyed"),
+  errorCaptured: () => console.log("errorCaptured"),
   methods: {
     submitArticle: function(newArticle) {
-      this.editedData = {};
+      this.editedData = {}
       const MODE = {
         NEW: article => {
           this.$store.dispatch("POST_NEW_ARTICLE", article).then(res => {
-            this.showModal = false;
-          });
+            this.showModal = false
+          })
         },
         EDIT: article => {
           this.$store.dispatch("UPDATE_AN_ARTICLE", article).then(res => {
-            this.showModal = false;
-          });
+            this.showModal = false
+          })
         }
-      };
-      MODE[this.modalMode](newArticle);
+      }
+      MODE[this.modalMode](newArticle)
     },
     deleteArticle: function(deletedData) {
-      this.$store.dispatch("DELETE_AN_ARTICLE", deletedData._id);
+      this.$store.dispatch("DELETE_AN_ARTICLE", deletedData._id)
     },
     openEditArticleModal: function(editedData) {
-      this.editedData = { ...editedData };
-      this.showModal = true;
-      this.modalMode = "EDIT";
+      this.editedData = { ...editedData }
+      this.showModal = true
+      this.modalMode = "EDIT"
     },
     closeModal: function(e) {
-      this.showModal = false;
+      this.showModal = false
     },
     openAddNewArticleModal: function(e) {
-      this.showModal = true;
-      this.modalMode = "NEW";
-      this.editedData = {};
+      this.showModal = true
+      this.modalMode = "NEW"
+      this.editedData = {}
     },
     goToPage: function(viewData) {
-      this.$router.push({ path: `/article/${viewData._id}` });
+      this.$router.push({ path: `/article/${viewData._id}` })
     },
     changeView: function(paging) {
-      this.$nuxt.$loading.start();
+      this.$nuxt.$loading.start()
       this.$store
         .dispatch("LOAD_ARTICLE_LIST", paging)
-        .then(res => this.$nuxt.$loading.finish());
+        .then(res => this.$nuxt.$loading.finish())
     },
     closeErrModal: function() {
-      this.hideErrModal(false);
+      this.hideErrModal(false)
     },
     ...mapActions({
       hideErrModal: "SET_HIDE_ERR"
@@ -115,7 +115,7 @@ export default {
       "serverErrMessage"
     ])
   }
-};
+}
 </script>
 
 <style lang="scss">

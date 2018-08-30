@@ -11,7 +11,7 @@ const chunk = (array, size) => {
   while (index < length) {
     result[resIndex++] = array.slice(index, (index += size))
   }
-  return result;
-};
+  return result
+}
 
-export default chunk;
+export default chunk
