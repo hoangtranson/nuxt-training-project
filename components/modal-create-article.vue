@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import { formatDate } from "../utils/date.js"
-
 export default {
   name: "BbsModal",
   props: {
@@ -78,7 +76,7 @@ export default {
     }
   },
   methods: {
-    submitData: function(e) {
+    submitData: function() {
       if (this.isFormValid(this.source)) {
         const data = {
           title: this.source.title,
@@ -126,7 +124,7 @@ export default {
       return true
     },
     validEmail: function(email) {
-      const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return emailPattern.test(email)
     }
   }

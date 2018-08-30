@@ -1,4 +1,4 @@
-const paginate = require("express-paginate")
+// const paginate = require("express-paginate")
 
 const articleController = articleModel => {
   const get = async (req, res, next) => {

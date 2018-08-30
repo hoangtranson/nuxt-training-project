@@ -44,8 +44,16 @@ export default {
       showSnackbar: false
     }
   },
-  fetch({ store, params }) {
+  fetch() {
     console.log("fetch")
+  },
+  computed: {
+    ...mapGetters([
+      "articleList",
+      "totalPage",
+      "isServerErr",
+      "serverErrMessage"
+    ])
   },
   beforeCreate: () => console.log("beforeCreate"),
   created: () => console.log("created"),
@@ -63,12 +71,12 @@ export default {
       this.editedData = {}
       const MODE = {
         NEW: article => {
-          this.$store.dispatch("POST_NEW_ARTICLE", article).then(res => {
+          this.$store.dispatch("POST_NEW_ARTICLE", article).then(() => {
             this.showModal = false
           })
         },
         EDIT: article => {
-          this.$store.dispatch("UPDATE_AN_ARTICLE", article).then(res => {
+          this.$store.dispatch("UPDATE_AN_ARTICLE", article).then(() => {
             this.showModal = false
           })
         }
@@ -83,10 +91,10 @@ export default {
       this.showModal = true
       this.modalMode = "EDIT"
     },
-    closeModal: function(e) {
+    closeModal: function() {
       this.showModal = false
     },
-    openAddNewArticleModal: function(e) {
+    openAddNewArticleModal: function() {
       this.showModal = true
       this.modalMode = "NEW"
       this.editedData = {}
@@ -98,7 +106,7 @@ export default {
       this.$nuxt.$loading.start()
       this.$store
         .dispatch("LOAD_ARTICLE_LIST", paging)
-        .then(res => this.$nuxt.$loading.finish())
+        .then(() => this.$nuxt.$loading.finish())
     },
     closeErrModal: function() {
       this.hideErrModal(false)
@@ -106,14 +114,6 @@ export default {
     ...mapActions({
       hideErrModal: "SET_HIDE_ERR"
     })
-  },
-  computed: {
-    ...mapGetters([
-      "articleList",
-      "totalPage",
-      "isServerErr",
-      "serverErrMessage"
-    ])
   }
 }
 </script>

@@ -10,12 +10,10 @@ const port = process.env.PORT || 3000
 const articleModel = require("./api/models/article")
 const articleRoute = require("./api/routes/article")(articleModel)
 
-let db
-
 if (process.env.ENV == "Test") {
-  db = mongoose.connect("mongodb://0.0.0.0:27017/bbs-api-test")
+  mongoose.connect("mongodb://0.0.0.0:27017/bbs-api-test")
 } else {
-  db = mongoose.connect("mongodb://0.0.0.0:27017/bbs-api")
+  mongoose.connect("mongodb://0.0.0.0:27017/bbs-api")
 }
 
 app.use(bodyParser.urlencoded({ extended: false }))

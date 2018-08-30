@@ -15,7 +15,7 @@ export default {
     }
   },
   methods: {
-    addArticle: function(e) {
+    addArticle: function() {
       this.$emit("add-article", true)
     }
   }

@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import chunk from "../utils/chunk.js"
-
 export default {
   name: "BbsTable",
   props: {
