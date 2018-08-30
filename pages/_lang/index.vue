@@ -30,45 +30,56 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  async asyncData({ store }) {
+    console.log('asyncData');
+    await store.dispatch("LOAD_ARTICLE_LIST");
     return {
       showModal: false,
       editedData: {},
       modalMode: "NEW",
       showSnackbar: false
-    }
+    };
   },
-  async fetch ({ store, params }) {
-    await store.dispatch('LOAD_ARTICLE_LIST');
+  fetch({ store, params }) {
+    console.log('fetch');
   },
+  beforeCreate: () => console.log('beforeCreate'),
+  created: () => console.log('created'),
+  beforeMount: () => console.log('beforeMount'),
+  mounted: () => console.log('mounted'),
+  beforeUpdate: () => console.log('beforeUpdate'),
+  updated: () => console.log('updated'),
+  activated: () => console.log('activated'),
+  deactivated: () => console.log('deactivated'),
+  beforeDestroy: () => console.log('beforeDestroy'),
+  destroyed: () => console.log('destroyed'),
+  errorCaptured: () => console.log('errorCaptured'),
   methods: {
     submitArticle: function(newArticle) {
       this.editedData = {};
       const MODE = {
-        "NEW": (article) => {
-          this.$store.dispatch('POST_NEW_ARTICLE', article)
-          .then( res => {
+        NEW: article => {
+          this.$store.dispatch("POST_NEW_ARTICLE", article).then(res => {
             this.showModal = false;
           });
         },
-        "EDIT": (article) => {
-          this.$store.dispatch('UPDATE_AN_ARTICLE', article)
-          .then( res => {
+        EDIT: article => {
+          this.$store.dispatch("UPDATE_AN_ARTICLE", article).then(res => {
             this.showModal = false;
           });
         }
-      }
+      };
       MODE[this.modalMode](newArticle);
     },
     deleteArticle: function(deletedData) {
-      this.$store.dispatch('DELETE_AN_ARTICLE', deletedData._id);
+      this.$store.dispatch("DELETE_AN_ARTICLE", deletedData._id);
     },
     openEditArticleModal: function(editedData) {
-      this.editedData = {...editedData};
+      this.editedData = { ...editedData };
       this.showModal = true;
       this.modalMode = "EDIT";
     },
@@ -85,28 +96,29 @@ export default {
     },
     changeView: function(paging) {
       this.$nuxt.$loading.start();
-      this.$store.dispatch('LOAD_ARTICLE_LIST', paging).then( res => this.$nuxt.$loading.finish());
+      this.$store
+        .dispatch("LOAD_ARTICLE_LIST", paging)
+        .then(res => this.$nuxt.$loading.finish());
     },
-    closeErrModal: function(){
+    closeErrModal: function() {
       this.hideErrModal(false);
     },
     ...mapActions({
-      hideErrModal: 'SET_HIDE_ERR'
+      hideErrModal: "SET_HIDE_ERR"
     })
   },
   computed: {
     ...mapGetters([
-      'articleList',
-      'totalPage',
-      'isServerErr',
-      'serverErrMessage'
+      "articleList",
+      "totalPage",
+      "isServerErr",
+      "serverErrMessage"
     ])
-  },
-}
+  }
+};
 </script>
 
 <style lang="scss">
-
 .md-layout-item {
   height: 40px;
 

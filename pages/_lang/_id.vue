@@ -28,8 +28,8 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'article-detail',
-  mounted () {
-    this.$store.dispatch('LOAD_AN_ARTICLE', this.$route.params.id);
+  async asyncData({ store, params }) {
+    await store.dispatch('LOAD_AN_ARTICLE', params.id);
   },
   computed: {
     ...mapGetters([

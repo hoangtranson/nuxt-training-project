@@ -25,15 +25,16 @@ const createStore = () => {
           commit('SET_SHOW_ERR', 'Cannot get Article list');
         }
       },
-      LOAD_AN_ARTICLE: function({commit, dispatch}, id) {
-        axios.get(`${API_URL}/article/${id}`).then((response) => {
-          const article = response.data;
-          article.viewCount ++;
-          commit('SET_DETAIL_ARTICLE', { article });
-          dispatch('UPDATE_AN_ARTICLE', article);
-        }).catch( e => {
+      LOAD_AN_ARTICLE: async function ({ commit, dispatch }, id) {
+        try{
+          const { data } = await axios.get(`${API_URL}/article/${id}`);
+          // const article = data;
+          // article.viewCount ++;
+          commit('SET_DETAIL_ARTICLE', data);
+          // dispatch('UPDATE_AN_ARTICLE', article);
+        } catch(err) {
           commit('SET_SHOW_ERR', `Cannot get Article with id ${id}`);
-        });
+        }
       },
       POST_NEW_ARTICLE: function({commit, dispatch}, data){
         console.warn(data);
@@ -69,8 +70,8 @@ const createStore = () => {
         state.articleList = list.data;
         state.pageCount = list.pageCount;
       },
-      SET_DETAIL_ARTICLE: (state, { article }) => {
-        state.detailArticle = JSON.parse(JSON.stringify(article));
+      SET_DETAIL_ARTICLE: (state, article) => {
+        state.detailArticle = article;
       },
       SET_SHOW_ERR: (state, text) => {
         state.showErrModal = true;
